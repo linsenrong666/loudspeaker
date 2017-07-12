@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Loudspeaker</string>
+
+    <string name="main_begin">开始录音</string>
+
+    <string name="tips_request_permissions">需要录音权限收集您的声音,以及存储权限存到您的手机存储中</string>
+</resources>
