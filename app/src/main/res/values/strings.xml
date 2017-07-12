@@ -1,7 +1,13 @@
 <resources>
     <string name="app_name">Loudspeaker</string>
+    <string name="confirm">确定</string>
+    <string name="cancel">取消</string>
 
     <string name="main_begin">开始录音</string>
 
     <string name="tips_request_permissions">需要录音权限收集您的声音,以及存储权限存到您的手机存储中</string>
+
+    <string name="dialog_create_name">给这段话起个名字吧</string>
+    <string name="hint_input">请输入</string>
+
 </resources>

@@ -3,6 +3,7 @@ package com.linsr.loudspeaker.utils;
 import android.content.Context;
 import android.media.MediaRecorder;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.util.Log;
 
 import java.io.File;
@@ -94,7 +95,7 @@ public class AudioRecorderUtils {
     /**
      * 停止录音
      */
-    public long stopRecord() {
+    public long stopRecord(String newName) {
         if (mMediaRecorder == null)
             return 0L;
         endTime = System.currentTimeMillis();
@@ -108,6 +109,9 @@ public class AudioRecorderUtils {
             mMediaRecorder = null;
 
             audioStatusUpdateListener.onStop(mFilePath);
+            if (!TextUtils.isEmpty(newName)) {
+                FileUtils.rename(new File(mFilePath), newName + ".amr");
+            }
             mFilePath = "";
         } catch (RuntimeException e) {
             mMediaRecorder.reset();

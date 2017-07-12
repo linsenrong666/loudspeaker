@@ -1,17 +1,22 @@
 package com.linsr.loudspeaker.gui.activites;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
+import android.media.MediaPlayer;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jude.easyrecyclerview.EasyRecyclerView;
+import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 import com.linsr.loudspeaker.R;
 import com.linsr.loudspeaker.application.Permissions;
 import com.linsr.loudspeaker.gui.adapters.RecordsAdapter;
@@ -19,6 +24,7 @@ import com.linsr.loudspeaker.model.RecordModel;
 import com.linsr.loudspeaker.utils.AudioRecorderUtils;
 import com.linsr.loudspeaker.utils.PopupWindowFactory;
 import com.linsr.loudspeaker.utils.TimeUtils;
+import com.linsr.loudspeaker.utils.ToastUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -36,7 +42,7 @@ public class MainActivity extends BaseActivity implements Permissions {
     @BindView(R.id.main_content_rl)
     RelativeLayout mRelativeLayout;
     @BindView(R.id.main_rv)
-    RecyclerView mRecyclerView;
+    EasyRecyclerView mRecyclerView;
 
     private ImageView mImageView;
     private TextView mTextView;
@@ -71,7 +77,12 @@ public class MainActivity extends BaseActivity implements Permissions {
         mAdapter = new RecordsAdapter(getApplicationContext(), mList);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mRecyclerView.setAdapter(mAdapter);
+        mAdapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
 
+            }
+        });
         //6.0以上需要权限申请
         requestPermissions();
     }
@@ -149,7 +160,6 @@ public class MainActivity extends BaseActivity implements Permissions {
                         mPop.dismiss();
                         mButton.setText("按住说话");
                         showDialog();
-//                        mAudioRecorderUtils.stopRecord();        //结束录音（保存录音文件）
                         break;
                 }
                 return true;
@@ -158,22 +168,30 @@ public class MainActivity extends BaseActivity implements Permissions {
     }
 
     private void showDialog() {
-        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
-        builder.setTitle("Material Design Dialog");
-        builder.setMessage("这是 android.support.v7.app.AlertDialog 中的样式");
-        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                mAudioRecorderUtils.cancelRecord();
-            }
-        });
-        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                mAudioRecorderUtils.stopRecord();
-            }
-        });
-        builder.show();
+        final EditText editText = new EditText(this);
+        Dialog dialog = mDialogFactory.createSimpleDialogBuilder(this)
+                .setView(editText, 0, 20, 0, 20)
+                .setTitle(R.string.dialog_create_name)
+                .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        String name = editText.getText().toString().trim();
+                        if (!TextUtils.isEmpty(name)) {
+                            dialogInterface.dismiss();
+                            mAudioRecorderUtils.stopRecord(name);
+                        } else {
+                            ToastUtils.toast(mContext, "名称不能为空");
+                        }
+                    }
+                })
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                })
+                .create();
+        mDialogFactory.showDialog(dialog);
     }
 
 

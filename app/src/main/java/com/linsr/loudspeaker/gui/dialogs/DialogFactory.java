@@ -1,11 +1,9 @@
 package com.linsr.loudspeaker.gui.dialogs;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.app.AlertDialog;
 
 
 /**
@@ -15,7 +13,6 @@ import android.support.v7.widget.RecyclerView;
  * @author Linsr
  */
 public class DialogFactory {
-
 
 
     private static volatile DialogFactory mInstance;
@@ -52,4 +49,22 @@ public class DialogFactory {
         }
     }
 
+    public Dialog createSimpleDialog(Context context,
+                                     String title,
+                                     String message,
+                                     String negativeText,
+                                     DialogInterface.OnClickListener negativeClickListener,
+                                     String positiveText,
+                                     DialogInterface.OnClickListener positiveClickListener) {
+        AlertDialog.Builder builder = createSimpleDialogBuilder(context);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.setNegativeButton(negativeText, negativeClickListener);
+        builder.setPositiveButton(positiveText, positiveClickListener);
+        return builder.create();
+    }
+
+    public AlertDialog.Builder createSimpleDialogBuilder(Context context) {
+        return new AlertDialog.Builder(context);
+    }
 }
