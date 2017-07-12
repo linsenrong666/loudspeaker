@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.linsr.loudspeaker.application.ApplicationEx;
+import com.linsr.loudspeaker.gui.dialogs.DialogFactory;
 
 import java.util.List;
 
@@ -31,14 +32,20 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
     protected abstract void initView();
 
     protected Context mContext;
+    protected DialogFactory mDialogFactory;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getContentViewId());
-        mContext = getApplicationContext();
         ButterKnife.bind(this);
+        init();
         initView();
+    }
+
+    protected void init(){
+        mContext = getApplicationContext();
+        mDialogFactory = DialogFactory.getInstance();
     }
 
     @Override

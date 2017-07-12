@@ -1,5 +1,6 @@
 package com.linsr.loudspeaker.gui.activites;
 
+import android.content.DialogInterface;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -145,16 +146,34 @@ public class MainActivity extends BaseActivity implements Permissions {
 //                        mAudioRecorderUtils.cancelRecord();    //取消录音（不保存录音文件）
                         break;
                     case MotionEvent.ACTION_UP:
-                        mAudioRecorderUtils.stopRecord();        //结束录音（保存录音文件）
-
                         mPop.dismiss();
                         mButton.setText("按住说话");
-
+                        showDialog();
+//                        mAudioRecorderUtils.stopRecord();        //结束录音（保存录音文件）
                         break;
                 }
                 return true;
             }
         });
+    }
+
+    private void showDialog() {
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
+        builder.setTitle("Material Design Dialog");
+        builder.setMessage("这是 android.support.v7.app.AlertDialog 中的样式");
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                mAudioRecorderUtils.cancelRecord();
+            }
+        });
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                mAudioRecorderUtils.stopRecord();
+            }
+        });
+        builder.show();
     }
 
 
