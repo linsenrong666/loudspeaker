@@ -22,6 +22,7 @@ import com.linsr.loudspeaker.application.Permissions;
 import com.linsr.loudspeaker.gui.adapters.RecordsAdapter;
 import com.linsr.loudspeaker.model.RecordModel;
 import com.linsr.loudspeaker.utils.AudioRecorderUtils;
+import com.linsr.loudspeaker.utils.FileUtils;
 import com.linsr.loudspeaker.utils.PopupWindowFactory;
 import com.linsr.loudspeaker.utils.TimeUtils;
 import com.linsr.loudspeaker.utils.ToastUtils;
@@ -73,29 +74,32 @@ public class MainActivity extends BaseActivity implements Permissions {
         mAudioRecorderUtils.setOnAudioStatusUpdateListener(mOnAudioStatusUpdateListener);
 
         mList = new ArrayList<>();
-        getData();
         mAdapter = new RecordsAdapter(getApplicationContext(), mList);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-
+                FileUtils.deleteFile(mList.get(position).getPath());
             }
         });
+
+        getData();
+
         //6.0以上需要权限申请
         requestPermissions();
     }
 
     private void getData() {
-        mList.clear();
+        mAdapter.clear();
         File file = new File(AudioRecorderUtils.getRecordsPath(mContext));
         File files[] = file.listFiles();
         if (files != null) {
             for (File f : files) {
                 RecordModel model = new RecordModel();
                 model.setRecordName(f.getName());
-                mList.add(model);
+                model.setPath(f.getPath());
+                mAdapter.add(model);
             }
         }
         Collections.reverse(mList);
@@ -118,7 +122,6 @@ public class MainActivity extends BaseActivity implements Permissions {
                     Toast.makeText(MainActivity.this, "录音保存在：" + filePath, Toast.LENGTH_SHORT).show();
 
                     getData();
-                    mAdapter.notifyDataSetChanged();
                     mTextView.setText(TimeUtils.long2String(0));
                 }
             };
@@ -170,7 +173,7 @@ public class MainActivity extends BaseActivity implements Permissions {
     private void showDialog() {
         final EditText editText = new EditText(this);
         Dialog dialog = mDialogFactory.createSimpleDialogBuilder(this)
-                .setView(editText, 0, 20, 0, 20)
+                .setView(editText)
                 .setTitle(R.string.dialog_create_name)
                 .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
                     @Override
@@ -190,6 +193,7 @@ public class MainActivity extends BaseActivity implements Permissions {
                         dialogInterface.dismiss();
                     }
                 })
+                .setNeutralButton("不保存",null)
                 .create();
         mDialogFactory.showDialog(dialog);
     }

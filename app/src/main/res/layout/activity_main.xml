@@ -23,4 +23,27 @@
         android:layout_margin="@dimen/font_middle"
         android:text="@string/main_begin"/>
 
+    <com.linsr.loudspeaker.gui.widgets.SlideView2
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:background="#000">
+
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:background="@color/colorAccent"
+            android:text="AAA"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/divider_colors"
+                android:text="BBB"/>
+        </LinearLayout>
+
+    </com.linsr.loudspeaker.gui.widgets.SlideView2>
+
 </RelativeLayout>

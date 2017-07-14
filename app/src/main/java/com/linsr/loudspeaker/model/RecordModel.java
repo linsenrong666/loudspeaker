@@ -9,6 +9,15 @@ package com.linsr.loudspeaker.model;
 public class RecordModel extends BaseModel {
 
     private String recordName;
+    private String path;
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
 
     public String getRecordName() {
         return recordName;
