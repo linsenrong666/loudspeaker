@@ -9,5 +9,8 @@
 
     <string name="dialog_create_name">给这段话起个名字吧</string>
     <string name="hint_input">请输入</string>
+    <string name="toast_file_not_exists">文件不存在</string>
+    <string name="play">播放</string>
+    <string name="stop">停止</string>
 
 </resources>

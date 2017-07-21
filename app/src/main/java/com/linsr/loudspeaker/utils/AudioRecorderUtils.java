@@ -114,10 +114,7 @@ public class AudioRecorderUtils {
             }
             mFilePath = "";
         } catch (RuntimeException e) {
-            mMediaRecorder.reset();
-            mMediaRecorder.release();
-            mMediaRecorder = null;
-
+            e.printStackTrace();
             File file = new File(mFilePath);
             if (file.exists())
                 file.delete();

@@ -3,6 +3,7 @@ package com.linsr.loudspeaker.application;
 import android.app.Application;
 import android.support.compat.BuildConfig;
 
+import com.linsr.loudspeaker.net.NetReqManager;
 import com.linsr.loudspeaker.utils.log.Log;
 import com.linsr.loudspeaker.utils.log.LogImpl;
 
@@ -27,9 +28,9 @@ public class ApplicationEx extends Application {
         instance = this;
 
         Log log = LogImpl.getInstance();
-        log.setLogToLogCat(BuildConfig.DEBUG);
+        log.setLogToLogCat(true);
 
-
+        NetReqManager.getInstance().init(log);
     }
 
 }

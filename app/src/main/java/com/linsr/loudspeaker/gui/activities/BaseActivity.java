@@ -1,4 +1,4 @@
-package com.linsr.loudspeaker.gui.activites;
+package com.linsr.loudspeaker.gui.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,8 +11,9 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.linsr.loudspeaker.application.ApplicationEx;
 import com.linsr.loudspeaker.gui.dialogs.DialogFactory;
+import com.linsr.loudspeaker.utils.log.Log;
+import com.linsr.loudspeaker.utils.log.LogImpl;
 
 import java.util.List;
 
@@ -27,12 +28,15 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 public abstract class BaseActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
 
+    protected String TAG;
+
     protected abstract int getContentViewId();
 
     protected abstract void initView();
 
     protected Context mContext;
     protected DialogFactory mDialogFactory;
+    protected Log mLog;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,9 +47,11 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
         initView();
     }
 
-    protected void init(){
+    protected void init() {
+        TAG = getClass().getSimpleName();
         mContext = getApplicationContext();
         mDialogFactory = DialogFactory.getInstance();
+        mLog = LogImpl.getInstance();
     }
 
     @Override
@@ -64,6 +70,15 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
+
+    protected void logInfo(String text, Object... params) {
+        mLog.i(TAG, text, params);
+    }
+
+    protected void logErr(String text, Object... params) {
+        mLog.e(TAG, text, params);
+    }
+
 
     /**
      * 获取权限成功

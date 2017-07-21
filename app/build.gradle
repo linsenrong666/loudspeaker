@@ -33,7 +33,10 @@ dependencies {
 
     compile 'com.jakewharton:butterknife:8.7.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.7.0'
-    compile 'com.jude:easyrecyclerview:4.2.3'
-    compile 'pub.devrel:easypermissions:0.2.0'
+    compile 'com.jude:easyrecyclerview:4.2.3'//自定义recyclerView
+    compile 'pub.devrel:easypermissions:0.2.0'//权限
+    compile 'com.carlos.voiceline:mylibrary:1.0.6'//声波动画
 
+    compile 'com.squareup.retrofit2:retrofit:2.3.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
 }

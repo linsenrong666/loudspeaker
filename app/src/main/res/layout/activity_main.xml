@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.linsr.loudspeaker.gui.activites.MainActivity">
+    tools:context="com.linsr.loudspeaker.gui.activities.MainActivity">
 
     <com.jude.easyrecyclerview.EasyRecyclerView
         android:id="@+id/main_rv"
@@ -26,6 +26,7 @@
     <com.linsr.loudspeaker.gui.widgets.SlideView2
         android:layout_width="match_parent"
         android:layout_height="300dp"
+        android:visibility="gone"
         android:background="#000">
 
         <TextView
